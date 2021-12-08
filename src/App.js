@@ -9,11 +9,9 @@ import React, { useState } from 'react';
 // Import the Posts (plural!) and SearchBar components, since they are used inside App component
 // Import the dummyData
 import './App.css';
-import LikeSection from './components/Posts/LikeSection.js';
-import Post from './components/Posts/Post.js';
-import Postheader from './components/Posts/PostHeader.js';
-import SearchBar from './components/SearchBar/SearchBar.js';
-import dummyData from './dummy-data.js';
+import Posts from './components/Posts/Posts';
+import SearchBar from './components/SearchBar/SearchBar';
+import dummyData from './dummy-data';
 
 
 const App = () => {
@@ -25,15 +23,15 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const likePost = postId => {
-    const moreLikes = posts.map(post => {
+    const newLike = posts.map(post => {
       if(post.id === postId) {
-        return { ...post, likes: setPosts(post + 1)}
-      } else {
-        return post;
-      }
-    })
-    setPosts(moreLikes);
-  
+        return { ...post, likes: post.likes + 1};
+    } else {
+      return post;
+    }
+  })
+    setPosts(newLike);
+};
     /*
       This function serves the purpose of increasing the number of likes by one, of the post with a given id.
 
@@ -45,15 +43,20 @@ const App = () => {
         - if the `id` of the post matches `postId`, return a new post object with the desired values (use the spread operator).
         - otherwise just return the post object unchanged.
      */
-  };
+  
 
   return (
     <div className='App'>
+      < SearchBar />
+      < Posts posts={posts} likePost={likePost} />
+      
+
       {/* Add SearchBar and Posts here to render them */}
       {/* Check the implementation of each component, to see what props they require, if any! */}
     </div>
   );
-};
+  };
+  
 
 export default App;
 
